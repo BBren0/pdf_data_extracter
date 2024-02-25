@@ -1,5 +1,5 @@
 import re
-import PyPDF
+import PyPDF2
 import pandas as pd
 
 # Função que extrai as informações do PDF e converte para um DF

@@ -8,7 +8,7 @@ def extrair_informacoes_pagina(page_text):
     regex_unidade = re.compile(r'Apartamento: (\d+)')
     regex_proprietario = re.compile(r'Proprietário: (.+)')
     regex_inquilino = re.compile(r'Inquilino: (.+)')
-    # regex_cpf_cnpj = re.compile(r'(?:CPF|CNPJ): (\d{3}\.\d{3}\.\d{3}-\d{2}|\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2})')
+    regex_cpf_cnpj = re.compile(r'(?:CPF|CNPJ): (\d{3}\.\d{3}\.\d{3}-\d{2}|\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2})')
     regex_cpf_cnpj = re.compile(r'(?:CPF|CNPJ): (.+)')
     regex_coeficiente = re.compile(r'Coeficiente Unidade: ([\d,]+)')
     regex_email = re.compile(r'Email de Cobrança: (.+@.+)')
@@ -45,6 +45,7 @@ def extrair_informacoes_pagina(page_text):
         # Verifica se há informações de proprietário para esta unidade
         while index < num_unidades and regex_proprietario.search(page_text):
             # Adiciona as informações do proprietário
+
             proprietario_info = {
                 'Unidade': unidades[index],
                 'Proprietário': proprietarios[index],
@@ -81,11 +82,12 @@ def extrair_informacoes_pagina(page_text):
             }
             data.append(inquilino_info)
             index += 1
+            #print(data)
         
         return data
 
 # Caminho do arquivo PDF
-pdf_path = "C:\\Users\\Pointer 01\\OneDrive - PointCondominio\Documentos\\Importação Fator\\Cadastro de unidades\\Allegro\\ALLEGRO CADASTRO DE UNIDADE.pdf"
+pdf_path = "C:\\Users\\breno\\Downloads\\Dados\\ALLEGRO CADASTRO DE UNIDADE.pdf"
 
 # Lista para armazenar os dados extraídos de todas as páginas
 all_data = []
@@ -100,7 +102,7 @@ with open(pdf_path, 'rb') as file:
     # Extrai as informações de todas as páginas de uma vez
     all_data = extrair_informacoes_pagina(all_text)
 
-print(all_text)
+print(all_data)
 
 # Cria um DataFrame pandas com os dados extraídos
 df = pd.DataFrame(all_data)
