@@ -19,6 +19,24 @@ def extrair_informacoes_pagina(page_text):
     regex_cidade = re.compile(r'Cidade: (.+)')
     regex_estado = re.compile(r'Estado: (.+)')
 
+    """""
+    Proprietário: ZUBARAN ADMINISTRACAO EM HOLDING LTDA
+    CPF/CNPJ: 44.220.690/0001-60
+    Data de Entrada: 31/01/2023
+    Data de Saída:
+    Endereço: Juarez Postal
+    Complemento: APTO. 802 - 804
+    Bairro: Borgo
+    CEP: 95705-450
+    Cidade: Bento Gonçalves
+    Estado: RS
+    Telefone Principal:
+    Residencial:
+    Celular:
+    Email de Cobrança: KATIAZUBARAN@YAHOO.COM
+    
+    """
+
     # Procura as informações no PDF
     unidades = regex_unidade.findall(page_text)
     proprietarios = regex_proprietario.findall(page_text)
