@@ -8,7 +8,7 @@ def extrair_informacoes_pagina(page_text):
     regex_unidade = re.compile(r'Apartamento: (\d+)')
     regex_proprietario = re.compile(r'Proprietário: (.+)')
     regex_inquilino = re.compile(r'Inquilino: (.+)')
-    # regex_cpf_cnpj = re.compile(r'(?:CPF|CNPJ): (\d{3}\.\d{3}\.\d{3}-\d{2}|\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2})')
+    regex_cpf_cnpj = re.compile(r'(?:CPF|CNPJ): (\d{3}\.\d{3}\.\d{3}-\d{2}|\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2})')
     regex_cpf_cnpj = re.compile(r'(?:CPF|CNPJ): (.+)')
     regex_coeficiente = re.compile(r'Coeficiente Unidade: ([\d,]+)')
     regex_email = re.compile(r'Email de Cobrança: (.+@.+)')
@@ -18,6 +18,24 @@ def extrair_informacoes_pagina(page_text):
     regex_cep = re.compile(r'CEP: (\d{5}-\d{3})')
     regex_cidade = re.compile(r'Cidade: (.+)')
     regex_estado = re.compile(r'Estado: (.+)')
+
+    """""
+    Proprietário: ZUBARAN ADMINISTRACAO EM HOLDING LTDA
+    CPF/CNPJ: 44.220.690/0001-60
+    Data de Entrada: 31/01/2023
+    Data de Saída:
+    Endereço: Juarez Postal
+    Complemento: APTO. 802 - 804
+    Bairro: Borgo
+    CEP: 95705-450
+    Cidade: Bento Gonçalves
+    Estado: RS
+    Telefone Principal:
+    Residencial:
+    Celular:
+    Email de Cobrança: KATIAZUBARAN@YAHOO.COM
+    
+    """
 
     # Procura as informações no PDF
     unidades = regex_unidade.findall(page_text)
@@ -45,10 +63,11 @@ def extrair_informacoes_pagina(page_text):
         # Verifica se há informações de proprietário para esta unidade
         while index < num_unidades and regex_proprietario.search(page_text):
             # Adiciona as informações do proprietário
+
             proprietario_info = {
                 'Unidade': unidades[index],
                 'Proprietário': proprietarios[index],
-                'Inquilino':inquilinos[index],
+                'Inquilino':None,  # Define como None para preencher com as informações do inquilino
                 'CPF/CNPJ': cpfs_cnpjs[index],
                 'Coeficiente': coeficientes[index],
                 'Email': emails[index],
@@ -81,11 +100,12 @@ def extrair_informacoes_pagina(page_text):
             }
             data.append(inquilino_info)
             index += 1
+            #print(data)
         
         return data
 
 # Caminho do arquivo PDF
-pdf_path = "C:\\Users\\Pointer 01\\OneDrive - PointCondominio\Documentos\\Importação Fator\\Cadastro de unidades\\Allegro\\ALLEGRO CADASTRO DE UNIDADE.pdf"
+pdf_path = "C:\\Users\\breno\\Downloads\\Dados\\ALLEGRO CADASTRO DE UNIDADE.pdf"
 
 # Lista para armazenar os dados extraídos de todas as páginas
 all_data = []
@@ -105,10 +125,8 @@ print(all_data)
 # Cria um DataFrame pandas com os dados extraídos
 df = pd.DataFrame(all_data)
 
-print(df)
-
 # Exporta o DataFrame para um arquivo Excel
-# excel_file_path = "dados_unidades.xlsx"
-# df.to_excel(excel_file_path, index=False)
+excel_file_path = "dados_unidades.xlsx"
+df.to_excel(excel_file_path, index=False)
 
-#print(f"O DataFrame foi exportado para o arquivo Excel: {excel_file_path}")
+print(f"O DataFrame foi exportado para o arquivo Excel: {excel_file_path}")
