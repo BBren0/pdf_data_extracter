@@ -5,7 +5,7 @@ import pandas as pd
 data = []
 
 # Abre o arquivo PDF em modo de leitura binária
-with open("C:\Users\Pointer 01\OneDrive - PointCondominio\Documentos\Importação Fator\Cadastro de unidades\Bello Horizonte\BELO HORIZONTE CADASTRO DE UNIDADE.pdf", 'rb') as file:
+with open("C:\\Users\\Pointer 01\\OneDrive - PointCondominio\Documentos\\Importação Fator\\Cadastro de unidades\\Bello Horizonte\\BELO HORIZONTE CADASTRO DE UNIDADE.pdf", 'rb') as file:
     # Cria um objeto PDFReader
     reader = PyPDF2.PdfReader(file)
 

@@ -48,7 +48,7 @@ def extrair_informacoes_pagina(page_text):
             proprietario_info = {
                 'Unidade': unidades[index],
                 'Proprietário': proprietarios[index],
-                'Inquilino':None,  # Define como None para preencher com as informações do inquilino
+                'Inquilino':inquilinos[index],
                 'CPF/CNPJ': cpfs_cnpjs[index],
                 'Coeficiente': coeficientes[index],
                 'Email': emails[index],
@@ -100,13 +100,15 @@ with open(pdf_path, 'rb') as file:
     # Extrai as informações de todas as páginas de uma vez
     all_data = extrair_informacoes_pagina(all_text)
 
-print(all_text)
+print(all_data)
 
 # Cria um DataFrame pandas com os dados extraídos
 df = pd.DataFrame(all_data)
 
-# Exporta o DataFrame para um arquivo Excel
-excel_file_path = "dados_unidades.xlsx"
-df.to_excel(excel_file_path, index=False)
+print(df)
 
-print(f"O DataFrame foi exportado para o arquivo Excel: {excel_file_path}")
+# Exporta o DataFrame para um arquivo Excel
+# excel_file_path = "dados_unidades.xlsx"
+# df.to_excel(excel_file_path, index=False)
+
+#print(f"O DataFrame foi exportado para o arquivo Excel: {excel_file_path}")
