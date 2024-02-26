@@ -1,5 +1,6 @@
 import re
 import PyPDF2
+import numpy as np
 import pandas as pd
 
 def tratando_string(all_text):
@@ -10,14 +11,40 @@ def tratando_string(all_text):
     
     return all_text
 
+
 def dados_proprietarios(data_pages):
     
-    regex_proprietario = re.compile(r'Proprietário:(.*?)(?=(?:\n\w|Email de Cobrança:))', re.DOTALL)
+    regex_proprietario = re.compile(r'Proprietário:(.*?)\nCPF/CNPJ: (.+)')
     
     proprietario = regex_proprietario.findall(data_pages)
 
-    return proprietario
+    dados_proprietarios = {
+        'Nome':proprietario[0][0],
+        'Cpf': proprietario[0][1]
+    }
+
+    return dados_proprietarios
+
+
+def dados_inquilinos(data_pages):
     
+    regex_inquilino = re.compile(r'Inquilino:(.*?)\nCPF/CNPJ: (.+)')
+    
+    inquilino = regex_inquilino.findall(data_pages)
+    
+    if inquilino:
+        dados_inquilinos = {
+            'Inquilino':inquilino[0][0],
+            'Cpf_Inquilino': inquilino[0][1]
+        }
+        return dados_inquilinos
+    else:
+        dados_inquilinos = {
+            'Inquilino':None,
+            'Cpf_Inquilino': None
+        }
+        return dados_inquilinos
+  
 
 def extair_dados(data_pages):
 
@@ -27,28 +54,25 @@ def extair_dados(data_pages):
     
     apartamentos = regex_unidade.findall(data_pages)
     data_pages = data_pages.split("Apartamento:")
-    print(data_pages)
     index = 0
     data = []
 
     while index < len(apartamentos):
         unidades = {
             'Apartamento': apartamentos[index],
-            'Proprietario': dados_proprietarios(data_pages[index+1]),
         }
         data.append(unidades)
-                
+        data.append(dados_proprietarios(data_pages[index+1]))
+        data.append(dados_inquilinos(data_pages[index+1]))    
         index += 1
-    
+        
     return data
-    
-
 
 
 def main():
 
     # Caminho Arquivo
-    pdf_path = "C:\\Users\\breno\\Downloads\\Dados\\ALLEGRO CADASTRO DE UNIDADE.pdf"
+    pdf_path = "C:\\Users\\Pointer 01\\OneDrive - PointCondominio\\Documentos\\Importação Fator\\Cadastro de unidades\\Allegro\\ALLEGRO CADASTRO DE UNIDADE.pdf"
 
     # Gerencimaneto do arquivo / 'rb' significa o modo de leitura binária
     with open(pdf_path, 'rb') as arquivo:
@@ -68,10 +92,11 @@ def main():
 
     # Atribuiu a lista all_data todas as informações do PDF
     all_data = extair_dados(all_text)
-    #print(all_data)
+    
 
     # Criando um dataframe pandas com os dados
     df = pd.DataFrame(all_data)
+    print(df)
 
     # Exporta o dataframe para um arquivo excel
     # excel_file_path define o nome do arquivo que será criado ou atualizado
@@ -79,5 +104,8 @@ def main():
 
     # # Transorma o dataframe em excel e exporta com o nome do excel_file_path e não define o index como uma coluna
     df.to_excel(excel_file_path, index=False)
+    print("Arquivo exportado com sucesso.")
+
+
 
 main()
