@@ -14,13 +14,14 @@ def tratando_string(all_text):
 
 def dados_proprietarios(data_pages):
     
-    regex_proprietario = re.compile(r'Proprietário:(.*?)\nCPF/CNPJ: (.+)')
+    regex_proprietario = re.compile(r'Proprietário:(.*?)\nCPF/CNPJ: (.+)\nData de Entrada: (.*?)?\nData de Saida: (.*?)?\n')
     
     proprietario = regex_proprietario.findall(data_pages)
 
     dados_proprietarios = {
-        'Nome':proprietario[0][0],
-        'Cpf': proprietario[0][1]
+        'Proprietario':proprietario[0][0],
+        'Cpf_proprietario': proprietario[0][1],
+        'Data de entrada': proprietario[0][2]
     }
 
     return dados_proprietarios
