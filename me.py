@@ -11,73 +11,170 @@ def tratando_string(all_text):
     return all_text
 
 def dados_proprietarios(data_pages):
-    
-    regex_proprietario = re.compile(r'Proprietário:(.*?)(?=(?:\n\w|Email de Cobrança:))', re.DOTALL)
-    
-    proprietario = regex_proprietario.findall(data_pages)
+    regex_proprietario = re.compile(r'Proprietário:(.*?)\nCPF/CNPJ: (.+)\nData de Entrada: (.*?)?\nData de Saída:(.+)?\nEndereço: (.*?)?\nComplemento:(.+)?\nBairro:(.*)?\nCEP:(.*)?\nCidade: (.*?)?\nEstado:(.*?)?\nTelefone Principal:(.*?)?\nResidencial:(.*?)?\nCelular:(.*?)?\nEmail de Cobrança:(.*?)?\n')
+    proprietarios = regex_proprietario.findall(data_pages)
+    n_proprietario = len(proprietarios)
+    print("Proprietários encontrados:", proprietarios)
 
-    return proprietario
     
+
+    
+
+    if n_proprietario > 1:
+        print(proprietarios)
+        if proprietarios[0][3] is None:
+            dados_proprietarios = {
+                'Proprietario': proprietarios[0][0],
+                'Cpf_proprietario': proprietarios[0][1],
+                'Data de entrada': proprietarios[0][2],
+                'Data de Saída': proprietarios[0][3],
+                'Logradouro': proprietarios[0][4],
+                'Complemento': proprietarios[0][5],
+                'Bairro': proprietarios[0][6],
+                'CEP': proprietarios[0][7],
+                'Cidade': proprietarios[0][8],
+                'Estado': proprietarios[0][9],
+                'Telefone Principal': proprietarios[0][10],
+                'Telefone Residencial': proprietarios[0][11],
+                'Celular': proprietarios[0][12],
+                'E-mail': proprietarios[0][13]
+            }
+            return  dados_proprietarios
+        
+        elif proprietarios[1][3] is not None: 
+            dados_proprietarios = {
+                'Proprietario': proprietarios[1][0],
+                'Cpf_proprietario': proprietarios[1][1],
+                'Data de entrada': proprietarios[1][2],
+                'Data de Saída': proprietarios[1][3],
+                'Logradouro': proprietarios[1][4],
+                'Complemento': proprietarios[1][5],
+                'Bairro': proprietarios[1][6],
+                'CEP': proprietarios[1][7],
+                'Cidade': proprietarios[1][8],
+                'Estado': proprietarios[1][9],
+                'Telefone Principal': proprietarios[1][10],
+                'Telefone Residencial': proprietarios[1][11],
+                'Celular': proprietarios[1][12],
+                'E-mail': proprietarios[1][13]
+            }
+            return  dados_proprietarios
+           
+        else:
+            dados_proprietarios = {
+                'Proprietario': proprietarios[2][0],
+                'Cpf_proprietario': proprietarios[2][1],
+                'Data de entrada': proprietarios[2][2],
+                'Data de Saída': proprietarios[2][3],
+                'Logradouro': proprietarios[2][4],
+                'Complemento': proprietarios[2][5],
+                'Bairro': proprietarios[2][6],
+                'CEP': proprietarios[2][7],
+                'Cidade': proprietarios[2][8],
+                'Estado': proprietarios[2][9],
+                'Telefone Principal': proprietarios[2][10],
+                'Telefone Residencial': proprietarios[2][11],
+                'Celular': proprietarios[2][12],
+                'E-mail': proprietarios[2][13]
+            }
+            return  dados_proprietarios
+    else:
+        dados_proprietarios = {
+                'Proprietario': proprietarios[0][0],
+                'Cpf_proprietario': proprietarios[0][1],
+                'Data de entrada': proprietarios[0][2],
+                'Data de Saída': proprietarios[0][3],
+                'Logradouro': proprietarios[0][4],
+                'Complemento': proprietarios[0][5],
+                'Bairro': proprietarios[0][6],
+                'CEP': proprietarios[0][7],
+                'Cidade': proprietarios[0][8],
+                'Estado': proprietarios[0][9],
+                'Telefone Principal': proprietarios[0][10],
+                'Telefone Residencial': proprietarios[0][11],
+                'Celular': proprietarios[0][12],
+                'E-mail': proprietarios[0][13]
+            }        
+
+        return  dados_proprietarios
+        
+    
+    
+
+    
+
+
+def dados_inquilinos(data_pages):
+    regex_inquilino = re.compile(r'Inquilino:(.*?)\nCPF/CNPJ: (.+)\nData de Entrada: (.*?)?\nData de Saída:(.+)?\nEndereço: (.*?)?\nComplemento:(.+)?\nBairro:(.*)?\nCEP:(.*)?\nCidade: (.*?)?\nEstado:(.*?)?\nTelefone Principal:(.*?)?\nResidencial:(.*?)?\nCelular:(.*?)?\nEmail de Cobrança:(.*?)?\n')
+    inquilino = regex_inquilino.findall(data_pages)
+    
+    if inquilino:
+        dados_inquilinos = {
+            'Inquilino':inquilino[0][0],
+            'Cpf_Inquilino': inquilino[0][1],
+            'Data de entrada_inquilino': inquilino[0][2],
+            'Data de Saída_inquilino': inquilino[0][3],
+            'Logradouro_inquilino': inquilino[0][4],
+            'Complemento_inquilino': inquilino[0][5],
+            'Bairro_inquilino': inquilino[0][6],
+            'CEP_inquiino': inquilino[0][7],
+            'Cidade_inquilino': inquilino[0][8],
+            'Estado_inquilino': inquilino[0][9],
+            'Telefone Principal_inquilino': inquilino[0][10],
+            'Telefone Residencial_inquilino': inquilino[0][11],
+            'Celular_inquilino': inquilino[0][12],
+            'E-mail_inquilino': inquilino[0][13]
+    
+        }
+    else:
+        dados_inquilinos = {
+            'Inquilino':None,
+            'Cpf_Inquilino': None,
+            'Data de entrada_inquilino': None,
+            'Data de Saída_inquilino': None,
+            'Logradouro_inquilino': None,
+            'Complemento_inquilino': None,
+            'Bairro_inquilino': None,
+            'CEP_inquiino': None,
+            'Cidade_inquilino': None,
+            'Estado_inquilino': None,
+            'Telefone Principal_inquilino': None,
+            'Telefone Residencial_inquilino': None,
+            'Celular_inquilino': None,
+            'E-mail_inquilino': None
+        }
+    
+    return dados_inquilinos
 
 def extair_dados(data_pages):
-
     regex_unidade = re.compile(r'Apartamento: (\d+)')
-    # regex_proprietario = re.compile(r'Proprietário: (.+)\nCPF/CNPJ: (.+)\nData de Entrada: (.+)\nData de Saída: (.*)\nEndereço: (.+)\nComplemento: (.+)\nBairro: (.+)\nCEP: (\d{5}-\d{3})\nCidade: (.+)\nEstado: (.+)\nTelefone Principal: (.*)\nResidencial:(.*)\nCelular: (.*)\nEmail de Cobrança: (.+@.+)')
-    # regex_inquilino = re.compile(r'Inquilino: (.+)\nCPF/CNPJ: (.+)\nData de Entrada: (.+)\nData de Saída: (.*)\nEndereço: (.+)\nComplemento: (.+)\nBairro: (.+)\nCEP: (\d{5}-\d{3})\nCidade: (.+)\nEstado: (.+)\nTelefone Principal: (.*)\nResidencial:(.*)\nCelular: (.*)\nEmail de Cobrança: (.+@.+)')
-    
     apartamentos = regex_unidade.findall(data_pages)
     data_pages = data_pages.split("Apartamento:")
-    print(data_pages)
-    index = 0
-    data = []
-
-    while index < len(apartamentos):
-        unidades = {
-            'Apartamento': apartamentos[index],
-            'Proprietario': dados_proprietarios(data_pages[index+1]),
-        }
-        data.append(unidades)
-                
-        index += 1
+    all_data = []
     
-    return data
-    
-
-
+    for index, apartamento in enumerate(apartamentos):
+        unidade_data = {'Apartamento': apartamento}
+        unidade_data.update(dados_proprietarios(data_pages[index + 1]))
+        unidade_data.update(dados_inquilinos(data_pages[index + 1]))
+        all_data.append(unidade_data)
+        
+    return all_data
 
 def main():
+    pdf_path = "C:\\Users\\Pointer 01\\OneDrive - PointCondominio\\Documentos\\Importação Fator\\Cadastro de unidades\\Allegro\\ALLEGRO CADASTRO DE UNIDADE.pdf"
 
-    # Caminho Arquivo
-    pdf_path = "C:\\Users\\breno\\Downloads\\Dados\\ALLEGRO CADASTRO DE UNIDADE.pdf"
-
-    # Gerencimaneto do arquivo / 'rb' significa o modo de leitura binária
     with open(pdf_path, 'rb') as arquivo:
-        # Atribui a variável reader o objeto lido em arquivo
         reader = PyPDF2.PdfReader(arquivo)
-
-        # Extrai o textos das paginas 
-        # Isso é uma compreensão de lista que itera sobre todos os números de página e extrai o texto de cada página usando o método extract_text() do objeto reader.pages[page_num]. Isso resulta em uma lista contendo o texto de cada página.
-        text = ''.join([reader.pages[page_num].extract_text() 
-                            for page_num in range(len(reader.pages))])
-        
+        text = ''.join([reader.pages[page_num].extract_text() for page_num in range(len(reader.pages))])
         all_text = tratando_string(text)
-        
     
-    # Lista onde serão armazenados todos os dados
-    all_data = []
-
-    # Atribuiu a lista all_data todas as informações do PDF
     all_data = extair_dados(all_text)
-    #print(all_data)
 
-    # Criando um dataframe pandas com os dados
     df = pd.DataFrame(all_data)
+    print(df)
 
-    # Exporta o dataframe para um arquivo excel
-    # excel_file_path define o nome do arquivo que será criado ou atualizado
     excel_file_path = "dados_unidades_allergo.xlsx"
-
-    # # Transorma o dataframe em excel e exporta com o nome do excel_file_path e não define o index como uma coluna
     df.to_excel(excel_file_path, index=False)
+    print("Arquivo exportado com sucesso.")
 
 main()

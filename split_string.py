@@ -5,7 +5,7 @@ import pandas as pd
 data = []
 
 # Abre o arquivo PDF em modo de leitura binária
-with open("C:\\Users\\breno\\Downloads\\Dados\\ALLEGRO CADASTRO DE UNIDADE.pdf", 'rb') as file:
+with open("C:\\Users\\Pointer 01\\OneDrive - PointCondominio\Documentos\\Importação Fator\\Cadastro de unidades\\Bello Horizonte\\BELO HORIZONTE CADASTRO DE UNIDADE.pdf", 'rb') as file:
     # Cria um objeto PDFReader
     reader = PyPDF2.PdfReader(file)
 
@@ -21,9 +21,12 @@ with open("C:\\Users\\breno\\Downloads\\Dados\\ALLEGRO CADASTRO DE UNIDADE.pdf",
         data.append(text)
         print(text)
 
+ap_data = text.split('Apartamento:')
 
-# # Cria um DataFrame pandas com os dados
-# df = pd.DataFrame(data, columns=['Texto'])
+print(ap_data)
 
-# # Salva o DataFrame em um arquivo Excel
-# df.to_excel('dados_extraidos.xlsx', index=False)
+# Cria um DataFrame pandas com os dados
+df = pd.DataFrame(data, columns=['Texto'])
+
+# Salva o DataFrame em um arquivo Excel
+df.to_excel('dados_unidades.xlsx', index=False)
