@@ -192,7 +192,7 @@ def extair_dados(data_pages):
 
 
 def main():
-    pdf_path = "C:\\Users\\breno\\Downloads\\Dados\\ALLEGRO CADASTRO DE UNIDADE.pdf"
+    pdf_path = "C:\\Users\\Pointer 01\\OneDrive - PointCondominio\\Documentos\\Importação Fator\\Cadastro de unidades\\Allegro\\ALLEGRO CADASTRO DE UNIDADE.pdf"
 
     with open(pdf_path, 'rb') as arquivo:
         reader = PyPDF2.PdfReader(arquivo)
