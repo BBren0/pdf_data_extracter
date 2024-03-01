@@ -3,7 +3,7 @@ import PyPDF2
 import pandas as pd
 
 def tratando_string(all_text):
-    palavras_excluir = ["VILLA DI VERONA","SCI Syndkos v24.02.21.2", "Histórico de Unidades - Sem período definido\n","\n\n"]
+    palavras_excluir = ["DONATELLO","SCI Syndkos v24.02.21.2", "Histórico de Unidades - Sem período definido\n","\n\n"]
     
     for palavra in palavras_excluir:
         all_text = re.sub(palavra,"", all_text)
@@ -109,26 +109,7 @@ def dados_inquilinos(apartamento, data_pages):
     print(f"{apartamento}: {n_inquilinos}")
 
     if inquilino:
-        if n_inquilinos == 1:
-            dados_inquilino = {
-                    'CPF/CNPJ Responsável': inquilino[0][1],   
-                    'Nome Responsável':inquilino[0][0],
-                    'Email Responsável': inquilino[0][13],
-                    'Telefone Responsável': inquilino[0][10],
-                    'Celular Responsável': inquilino[0][12],
-                    'Comercial Responsável': inquilino[0][11],
-                    'Data de entrada_inquilino': inquilino[0][2],
-                    'Data de Saída_inquilino': inquilino[0][3],
-                    'Logradouro Responsável': inquilino[0][4],
-                    'Complemento_inquilino': inquilino[0][5],
-                    'Número Responsável': None,
-                    'CEP Responsável': inquilino[0][7],
-                    'Bairro Responsável': inquilino[0][6],
-                    'Cidade Responsável': inquilino[0][8],
-                    'Estado Responsável': inquilino[0][9],
-                }
-            return dados_inquilino
-        if n_inquilinos > 1:
+        if n_inquilinos >= 1:
             index = 0
             while n_inquilinos != index:
                 if inquilino[index][3] is '':
@@ -148,11 +129,45 @@ def dados_inquilinos(apartamento, data_pages):
                     'Bairro Responsável': inquilino[index][6],
                     'Cidade Responsável': inquilino[index][8],
                     'Estado Responsável': inquilino[index][9],
-                    
+                     }
+                    return dados_inquilino
+                index += 1
+            else:
+                    dados_inquilino = {
+                    'Inquilino': None,
+                    'Cpf_Inquilino': None,
+                    'Data de entrada_inquilino': None,
+                    'Data de Saída_inquilino': None,
+                    'Logradouro_inquilino': None,
+                    'Complemento_inquilino': None,
+                    'Bairro_inquilino': None,
+                    'CEP_inquiino': None,
+                    'Cidade_inquilino': None,
+                    'Estado_inquilino': None,
+                    'Telefone Principal_inquilino': None,
+                    'Telefone Residencial_inquilino': None,
+                    'Celular_inquilino': None,
+                    'E-mail_inquilino': None
                     }
                     return dados_inquilino
-                  
-                index += 1     
+        else:
+            dados_inquilino = {
+                'Inquilino': None,
+                'Cpf_Inquilino': None,
+                'Data de entrada_inquilino': None,
+                'Data de Saída_inquilino': None,
+                'Logradouro_inquilino': None,
+                'Complemento_inquilino': None,
+                'Bairro_inquilino': None,
+                'CEP_inquiino': None,
+                'Cidade_inquilino': None,
+                'Estado_inquilino': None,
+                'Telefone Principal_inquilino': None,
+                'Telefone Residencial_inquilino': None,
+                'Celular_inquilino': None,
+                'E-mail_inquilino': None
+            }
+            return dados_inquilino     
     else:
         dados_inquilino = {
             'Inquilino': None,
@@ -175,7 +190,9 @@ def dados_inquilinos(apartamento, data_pages):
 
 def extair_dados(data_pages):
     regex_unidade = re.compile(r'Apartamento: (\d+)')
+    regex_boxs = re.compile(r'Box: (\d+)')
     apartamentos = regex_unidade.findall(data_pages)
+    boxs = regex_boxs.findall(data_pages)
     data_pages = data_pages.split("Apartamento:")
     all_data = []
     
@@ -186,16 +203,28 @@ def extair_dados(data_pages):
                     'Rateio': "S",
                     'Tipo de Pessoa Responsável': None
                     }
-
         unidade_data.update(dados_inquilinos(apartamento, data_pages[index + 1]))
         unidade_data.update(dados_proprietarios(data_pages[index + 1]))
         all_data.append(unidade_data)
-        
+    
+    if box:
+        for index, box in enumerate(boxs):
+            unidade_data = {
+                        'Bloco': "Box",
+                        'Unidade': box,
+                        'Rateio': "S",
+                        'Tipo de Pessoa Responsável': None
+                        }
+            unidade_data.update(dados_inquilinos(box, data_pages[index + 1]))
+            unidade_data.update(dados_proprietarios(data_pages[index + 1]))
+            all_data.append(unidade_data)
+
+            
     return all_data
 
 
 def main():
-    pdf_path = "C:\\Users\\Pointer 01\\OneDrive - PointCondominio\Documentos\\Importação Fator\\Cadastro de unidades\\Villa Di Verona\\VILLA DI VERONA CADASTRO DE UNIDADE.pdf"
+    pdf_path = "C:\\Users\\Pointer 01\\OneDrive - PointCondominio\Documentos\\Importação Fator\\Cadastro de unidades\\DONATELLO\\DONATELLO CADASTRO DE UNIDADE.pdf"
 
     with open(pdf_path, 'rb') as arquivo:
         reader = PyPDF2.PdfReader(arquivo)
