@@ -4,7 +4,7 @@ import PyPDF2
 import pandas as pd
 
 def tratando_string(all_text):
-    palavras_excluir = ["DONATELLO","SCI Syndkos v24.02.21.2", "Histórico de Unidades - Sem período definido\n","\n\n"]
+    palavras_excluir = ["D","SCI Syndkos v24.02.21.2", "Histórico de Unidades - Sem período definido\n","\n\n"]
     
     for palavra in palavras_excluir:
         all_text = re.sub(palavra,"", all_text)
@@ -243,13 +243,13 @@ def exportar_coeficientes(all_text):
     colunas = ['Unidade', 'Coeficiente']
 
     df = pd.DataFrame(dados_coeficientes, columns=colunas)
-    excel_file_path = "C:\\Users\\Pointer 01\\OneDrive - PointCondominio\\Documentos\\Importação Fator\\Cadastro de unidades\\DONATELLO\\Coeficiente.xlsx"
+    excel_file_path = "C:\\Users\\Pointer 01\\OneDrive\\Documentos\\Importação Fator\\Cadastro de unidades\\D\\Coeficiente.xlsx"
     df.to_excel(excel_file_path, index=False)
     print("Arquivos de fração exportados com sucesso!")
 
 
 def main():
-    pdf_path = "C:\\Users\\Pointer 01\\OneDrive - PointCondominio\Documentos\\Importação Fator\\Cadastro de unidades\\DONATELLO\\DONATELLO CADASTRO DE UNIDADE.pdf"
+    pdf_path = "C:\\Users\\Pointer 01\\OneDrive\Documentos\\Importação Fator\\Cadastro de unidades\\D\\D.pdf"
 
     all_text = tratando_arquivo(pdf_path)
 
